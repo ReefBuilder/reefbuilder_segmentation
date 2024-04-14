@@ -18,7 +18,7 @@ Poetry installation instructions: https://python-poetry.org/docs/
 Run the following to install all required dependencies:
 
 ```shell
-poetry install
+poetry install --no-root
 ```
 
 When new dependencies are required, add them to the project using `poetry add` and run `poetry lock` to resolve the dependencies (which will update the `poetry.lock` file, which should be committed).
