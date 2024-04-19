@@ -20,3 +20,7 @@ Each month, we go to each artificial reef (which consists of multiple tiles, whe
 growing at different sites and under different conditions across our study period. To do this, we need to know the size of each coral (or coral fragment, will be interchangeably used) in each picture that we are
 taking. Once we know the sizes, this data of individual corals with their sizes across time will go to the 
 Coastal Impact's marine biologists who will combine this data with other information and start their study.
+
+---
+# Github Repo Structure
+Loosely adapted from [here](https://medium.com/analytics-vidhya/folder-structure-for-machine-learning-projects-a7e451a8caaa)

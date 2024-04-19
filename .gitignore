@@ -1,0 +1,8 @@
+# pycharm-specific file
+.idea
+
+# data folder
+data
+
+# models folder
+models
