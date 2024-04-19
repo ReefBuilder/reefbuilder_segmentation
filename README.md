@@ -21,6 +21,5 @@ growing at different sites and under different conditions across our study perio
 taking. Once we know the sizes, this data of individual corals with their sizes across time will go to the 
 Coastal Impact's marine biologists who will combine this data with other information and start their study.
 
----
 # Github Repo Structure
 Loosely adapted from [here](https://medium.com/analytics-vidhya/folder-structure-for-machine-learning-projects-a7e451a8caaa)

@@ -9,3 +9,6 @@ models
 
 # results folder
 results
+
+# pycache file...I don't think we need them
+__pycache__
