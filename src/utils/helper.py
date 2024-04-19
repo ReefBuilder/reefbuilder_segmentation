@@ -1,6 +1,11 @@
 import cv2
 import numpy as np
 import supervision as sv
+from glob import glob
+import os
+
+# TODO: read global variables from config file
+POSSIBLE_IMAGE_EXTENSIONS = ["jpg", "JPG", "png", "PNG"]
 
 
 # TODO: add data types to function parameters and function return types
@@ -77,3 +82,27 @@ def draw_masks_image(image_bgr, detections):
     #   )
     return segmented_image
 
+
+def get_images_from_folder(folder):
+    all_images = []
+    for extension in POSSIBLE_IMAGE_EXTENSIONS:
+        current_extension_images = glob(os.path.join(folder, f"*.{extension}"))
+        all_images.extend(current_extension_images)
+    return all_images
+
+
+def load_image_with_resizing(image_address, resize_image_size):
+    # load single image
+    image_bgr = cv2.imread(image_address)
+    original_image_size = image_bgr.shape[1], image_bgr.shape[0]
+
+    image_rgb = cv2.cvtColor(image_bgr, cv2.COLOR_BGR2RGB)
+    resized_image = cv2.resize(image_rgb, resize_image_size) # for inference in YOLO
+
+    return image_bgr, image_rgb, resized_image, original_image_size
+
+
+# TODO: check cv2 or pillow and then save accordingly
+def save_image(image, image_save_path):
+    cv2.imwrite(image_save_path, image)
+    return None
