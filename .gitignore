@@ -6,3 +6,6 @@ data
 
 # models folder
 models
+
+# results folder
+results
