@@ -12,3 +12,6 @@ results
 
 # pycache file...I don't think we need them
 __pycache__
+
+# Apple specific file
+.DS_Store

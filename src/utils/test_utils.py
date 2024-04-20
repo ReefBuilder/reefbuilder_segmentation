@@ -8,7 +8,8 @@ from src.utils.visualisation_utils import draw_bboxes_xyxyn
 RESIZE_IMAGE_SIZE = (640, 490)
 
 
-def generate_yolo_prediction_images(model, test_folder_path, save_parent_path):
+# TODO: make function more modular + allow single test file input
+def generate_yolo_prediction_images(model, predict_args, test_folder_path, save_parent_path):
     # creating save location
     test_folder_name = test_folder_path.strip("/").split('/')[-1]
     full_save_path = os.path.join(save_parent_path, test_folder_name)
@@ -21,7 +22,7 @@ def generate_yolo_prediction_images(model, test_folder_path, save_parent_path):
     image_names = [i.split("/")[-1] for i in image_paths]
 
     # Getting YOLO predictions for multiple images
-    results = model.predict(resized_images)
+    results = model.predict(resized_images, **predict_args)
     images_with_bboxes = [draw_bboxes_xyxyn(result.boxes.xyxyn, image_rgb)
                           for result, image_rgb in zip(results, image_rgbs)]
     for image_index, image in enumerate(images_with_bboxes):
