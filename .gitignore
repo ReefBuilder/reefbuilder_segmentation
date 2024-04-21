@@ -15,3 +15,6 @@ __pycache__
 
 # Apple specific file
 .DS_Store
+
+# folder for storing rough code/notebooks/data/etc.
+rough
