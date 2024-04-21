@@ -104,5 +104,5 @@ def load_image_with_resizing(image_address, resize_image_size):
 
 # TODO: check cv2 or pillow and then save accordingly
 def save_image(image, image_save_path):
-    cv2.imwrite(image_save_path, image)
+    cv2.imwrite(image_save_path, cv2.cvtColor(image, cv2.COLOR_RGB2BGR))
     return None

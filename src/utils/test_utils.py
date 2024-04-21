@@ -32,6 +32,7 @@ def generate_yolo_prediction_images(model, predict_args, test_folder_path, save_
 
 
 # TODO: make resize_size an optional argument
+# TODO: Fix resizing to maintain aspect ratio
 def read_images_from_folder(folder, resize_size):
     image_paths = get_images_from_folder(folder)
     image_bgrs = []
