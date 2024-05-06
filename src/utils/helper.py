@@ -106,3 +106,9 @@ def load_image_with_resizing(image_address, resize_image_size):
 def save_image(image, image_save_path):
     cv2.imwrite(image_save_path, cv2.cvtColor(image, cv2.COLOR_RGB2BGR))
     return None
+
+
+def load_text_file(file_path):
+    with open(file_path) as f:
+        text_file = f.read()
+    return text_file
