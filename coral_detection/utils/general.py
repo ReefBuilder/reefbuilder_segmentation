@@ -112,3 +112,16 @@ def load_text_file(file_path):
     with open(file_path) as f:
         text_file = f.read()
     return text_file
+
+
+def print_unique_count_of_arrays(list_of_arrays, labels=None):
+    for idx, arr in enumerate(list_of_arrays):
+        if labels:
+            print(labels[idx])
+        print_unique_count_of_array(arr)
+
+
+def print_unique_count_of_array(arr):
+    unique, counts = np.unique(arr, return_counts=True)
+    for item, count in zip(unique, counts):
+        print(f'{item} was observed {count} time(s)')
