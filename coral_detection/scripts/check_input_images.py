@@ -6,4 +6,3 @@ if __name__ == "__main__":
     ic = ImageChecker(source_image_folder)
     ic.describe()
     ic.check_images()
-

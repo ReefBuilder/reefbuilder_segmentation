@@ -4,7 +4,7 @@ import numpy as np
 import os
 import coral_detection.config as cfg
 from coral_detection.utils.general import print_unique_count_of_arrays
-from coral_detection.utils import checks
+from coral_detection.utils.checks import image_checks
 
 
 class ImageChecker:
@@ -56,15 +56,15 @@ class ImageChecker:
     # TODO: add logger support for below function
     def check_images(self):
         for image_path in self.source_images:
-            messages = checks.basic_image_check(image_path)
+            messages = image_checks.basic_image_check(image_path)
             for message in messages:
                 print(message)
         if self.check_if_all_images_same_height:
-            messages = checks.all_images_same_dim(self.source_images, 1, self.check_if_all_images_same_height)
+            messages = image_checks.all_images_same_dim(self.source_images, 1, self.check_if_all_images_same_height)
             for message in messages:
                 print(message)
         if self.check_if_all_images_same_width:
-            messages = checks.all_images_same_dim(self.source_images, 2, self.check_if_all_images_same_width)
+            messages = image_checks.all_images_same_dim(self.source_images, 2, self.check_if_all_images_same_width)
             for message in messages:
                 print(message)
         return None
