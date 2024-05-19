@@ -1,5 +1,6 @@
 from glob import glob
 import os
+import json
 import coral_detection.config as cfg
 from coral_detection.utils.checks import label_checks
 
@@ -28,4 +29,10 @@ class LabelChecker:
 
     # TODO: add logger support for below function
     def check_labels(self):
+        for file in self.source_labels:
+            with open(file, 'r') as f:
+                json_file = json.load(f)
+            messages = label_checks.coco_validator(json_file, file)
+            for message in messages:
+                print(message)
         return None
