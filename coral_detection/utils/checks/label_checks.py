@@ -1,4 +1,25 @@
 import os
+import json
+
+
+def duplicate_image_names(coco_file_paths):
+    message = None
+    all_image_names = []
+    for coco_file in coco_file_paths:
+        with open(coco_file, 'r') as f:
+            json_file = json.load(f)
+        for image_dict in json_file['images']:
+            image_name = image_dict['file_name']
+            all_image_names.append(image_name)
+    n_duplicate_names = len(all_image_names) - len(set(all_image_names))
+    if n_duplicate_names:
+        duplicate_list = [all_image_names.count(i) for i in all_image_names]
+        duplicate_dict = {i: j for i, j in zip(all_image_names, duplicate_list) if j > 1}
+        duplicate_names = list(duplicate_dict.keys())
+        # TODO: Print out the coco files to check too if duplicates are found
+        message = (f'{n_duplicate_names} duplicate image names detected in COCO files.\n'
+                   f'Duplicates found for files: {duplicate_names}.')
+    return message
 
 
 def coco_validator(coco, file_path):

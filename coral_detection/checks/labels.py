@@ -35,4 +35,7 @@ class LabelChecker:
             messages = label_checks.coco_validator(json_file, file)
             for message in messages:
                 print(message)
+        message = label_checks.duplicate_image_names(self.source_labels)
+        if message:
+            print(message)
         return None
