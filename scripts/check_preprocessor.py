@@ -7,9 +7,18 @@ preprocess_config = {
     "label_mapping": {
         'ref': 'REF',
         'coral': 'CORAL'
-    }
+    },
+    'train_percentage': 0.8,
+    'val_percentage': 0.1,
+    'test_percentage': 0.1,
+    'split_seed': 0
 }
 
 prep = Preprocessor(image_folder_path, coco_files)
 ds = prep.create_dataset()
-ds = prep.preprocess_dataset(preprocess_config)
+train_view, val_view, test_view = prep.preprocess_dataset(preprocess_config)
+print(train_view)
+print("\n--\n")
+print(val_view)
+print("\n--\n")
+print(test_view)
