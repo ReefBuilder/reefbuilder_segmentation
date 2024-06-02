@@ -12,6 +12,9 @@ class Preprocessor:
         self.coco_file_paths = coco_file_paths
         self.dataset = None
         self.preprocess_config = None
+        self.test_dataset = None
+        self.val_dataset = None
+        self.train_dataset = None
 
     def create_dataset(self):
         coco_dataset = fo.Dataset.from_dir(
@@ -30,5 +33,6 @@ class Preprocessor:
 
     def preprocess_dataset(self, config):
         self.preprocess_config = config
-        self.dataset = preprocess_dataset_with_config(self.dataset, config)
-        return self.dataset
+        datasets = preprocess_dataset_with_config(self.dataset, config)
+        self.dataset, self.train_dataset, self.val_dataset, self.test_dataset = datasets
+        return self.train_dataset, self.val_dataset, self.test_dataset
