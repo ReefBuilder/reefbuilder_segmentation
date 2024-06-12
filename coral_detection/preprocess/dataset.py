@@ -1,4 +1,5 @@
 import fiftyone as fo
+import fiftyone.utils.labels as foul
 import os
 
 from coral_detection.utils.preprocessor.dataset import preprocess_dataset_with_config
@@ -42,4 +43,6 @@ class Preprocessor:
         self.preprocess_config = config
         datasets = preprocess_dataset_with_config(self.dataset, config)
         self.dataset, self.train_dataset, self.val_dataset, self.test_dataset = datasets
+        # TODO: check and modify tolerance if needed
+        foul.instances_to_polylines(self.dataset, "segmentations", "polylines", tolerance=2)
         return self.train_dataset, self.val_dataset, self.test_dataset
