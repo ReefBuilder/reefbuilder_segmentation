@@ -2,7 +2,7 @@ import fiftyone as fo
 import fiftyone.utils.labels as foul
 import os
 
-from coral_detection.utils.preprocessor.dataset import preprocess_dataset_with_config
+from reefbuilder_segmentation.utils.preprocessor.dataset import preprocess_dataset_with_config
 
 
 class Preprocessor:

@@ -1,5 +1,5 @@
-from coral_detection.preprocess.dataset import Preprocessor
-from coral_detection.modelling.base import Model
+from reefbuilder_segmentation.preprocess.dataset import Preprocessor
+from reefbuilder_segmentation.modelling.base import Model
 
 # preprocessing
 image_folder_path = '/Users/ishannangia/Desktop/del_this_images'

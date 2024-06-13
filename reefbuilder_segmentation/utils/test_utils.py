@@ -1,8 +1,8 @@
 import os
 from glob import glob
 
-from src.utils.helper import get_images_from_folder, load_image_with_resizing, save_image
-from src.utils.visualisation_utils import draw_bboxes_xyxyn
+from coral_detection.utils.general import get_images_from_folder, load_image_with_resizing, save_image
+from coral_detection.utils.visualisation_utils import draw_bboxes_xyxyn
 
 # TODO: read global variables from central cfg file
 RESIZE_IMAGE_SIZE = (640, 490)

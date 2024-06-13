@@ -2,9 +2,9 @@ from glob import glob
 import cv2
 import numpy as np
 import os
-import coral_detection.config as cfg
-from coral_detection.utils.general import print_unique_count_of_arrays
-from coral_detection.utils.checks import image_checks
+import reefbuilder_segmentation.config as cfg
+from reefbuilder_segmentation.utils.general import print_unique_count_of_arrays
+from reefbuilder_segmentation.utils.checks import image_checks
 
 
 class ImageChecker:

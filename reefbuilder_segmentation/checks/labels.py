@@ -1,8 +1,8 @@
 from glob import glob
 import os
 import json
-import coral_detection.config as cfg
-from coral_detection.utils.checks import label_checks
+import reefbuilder_segmentation.config as cfg
+from reefbuilder_segmentation.utils.checks import label_checks
 
 
 class LabelChecker:

@@ -1,8 +1,8 @@
 from ultralytics import YOLO
 import os
 
-import coral_detection.config as cfg
-from coral_detection.utils.modelling.yolo import export_yolo_data, test_on_data_with_labels_yolo
+import reefbuilder_segmentation.config as cfg
+from reefbuilder_segmentation.utils.modelling.yolo import export_yolo_data, test_on_data_with_labels_yolo
 
 
 class Model:
