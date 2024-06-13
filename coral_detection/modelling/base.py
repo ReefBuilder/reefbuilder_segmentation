@@ -2,18 +2,22 @@ from ultralytics import YOLO
 import os
 
 import coral_detection.config as cfg
-from coral_detection.utils.modelling.yolo import export_yolo_data
+from coral_detection.utils.modelling.yolo import export_yolo_data, test_on_data_with_labels_yolo
 
 
 class Model:
+    """
+    Class for creating a model to model the given inputs and train on them.
+    """
     def __init__(self, fo_dataset):
-        self.dataset = fo_dataset
-        self.model = None
-        self.model_type = None
-        self.model_location = None
-        self.data_folder = None
-        self.valid_metrics = None
-        self.model_type = None
+        self.dataset = fo_dataset  # fiftyone dataset
+        self.model = None  # points to the loaded model itself
+        self.model_type = None  # type of model currently being used: YOLO, DETECTRON
+        self.model_location = None  # location from where model has been loaded
+        self.data_folder = None  # folder containing the actual data (when using YOLO)
+        self.train_metrics = None
+        self.valid_metrics = None  # metrics on validation set
+        self.test_metrics = None
 
     def train_yolo(self, model_location=None, data_location='../data', epochs=100, patience=0, **kwargs):
         self.model_type = 'YOLO'
@@ -32,6 +36,7 @@ class Model:
                 return
         else:
             # TODO: manage downloading of model. Should be placed in a correct folder
+            # TODO: update model_location
             print('Starting training from base model...')
             model = YOLO(cfg.base_yolo_model)
         self.model = model
@@ -44,19 +49,22 @@ class Model:
                                    patience=patience,
                                    **kwargs)
 
-        # save results on train, validation
-        self.valid_metrics = self.model.val()
-        self.model = os.path.join(results.save_dir, 'weights', 'best.pt')
-        print('Model results saved here:', results.save_dir)
+        # updating model parameters
+        self.model_location = os.path.join(results.save_dir, 'weights', 'best.pt')
+        self.model = YOLO(self.model_location)
+
+        # updating results
+        self.train_metrics = test_on_data_with_labels_yolo(os.path.join(self.data_folder, 'dataset.yaml'),
+                                                           'train',
+                                                           model=self.model)
+        self.valid_metrics = test_on_data_with_labels_yolo(os.path.join(self.data_folder, 'dataset.yaml'),
+                                                           'val',
+                                                           model=self.model)
+        self.test_metrics = test_on_data_with_labels_yolo(os.path.join(self.data_folder, 'dataset.yaml'),
+                                                          'test',
+                                                          model=self.model)
+
+        print('\n || Model results saved here:', results.save_dir, "|| \n")
         return None
 
-    def test_yolo(self, **kwargs):
-        # load saved model
-        # test on saved test dataset
-        # save and return test metrics
-        return
 
-    def save_model(self, save_path='./saved_model'):
-        # get most recent trained model
-        # save in given location
-        return
