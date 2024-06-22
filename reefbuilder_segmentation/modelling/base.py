@@ -1,5 +1,6 @@
 from ultralytics import YOLO
 import os
+import shutil
 
 import reefbuilder_segmentation.config as cfg
 from reefbuilder_segmentation.utils.modelling.yolo import export_yolo_data, test_on_data_with_labels_yolo
@@ -35,10 +36,19 @@ class Model:
                 print('The given model location doesnt exist...')
                 return
         else:
-            # TODO: manage downloading of model. Should be placed in a correct folder
-            # TODO: update model_location
+            # TODO: allow for specifying location for saving downloaded model
             print('Starting training from base model...')
             model = YOLO(cfg.base_yolo_model)
+
+            src = cfg.base_yolo_model
+            dst = os.path.join("..", "models", src)
+            parent_dst = os.path.split(dst)[0]
+            if not os.path.exists(parent_dst):
+                os.makedirs(parent_dst)
+            shutil.move(src, dst)
+            model = YOLO(dst)
+            self.model_location = dst
+
         self.model = model
 
         # TODO: manage run folder creation. Where should it get created?
@@ -66,5 +76,3 @@ class Model:
 
         print('\n || Model results saved here:', results.save_dir, "|| \n")
         return None
-
-
