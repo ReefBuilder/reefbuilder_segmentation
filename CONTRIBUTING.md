@@ -6,8 +6,8 @@
 
 Create and activate a conda virtual environment based on python 3.11
 ```commandline
-conda create -n coral-detection python=3.11
-conda activate coral-detection
+conda create -n reefbuilder-segmentation python=3.11
+conda activate reefbuilder-segmentation
 ```
 
 ### 2. Install Poetry
@@ -24,3 +24,12 @@ poetry install --no-root
 When new dependencies are required, add them to the project using `poetry add` and run `poetry lock` to resolve
 the dependencies (which will update the `poetry.lock` file, which should be committed).
 
+
+### 3. Create Git commit message template
+This repo uses a specific format for git commits. This format can be found in the .gitmessage file.
+
+Run the following to automatically initialise template whenever you commit:
+
+```shell
+ git config --local commit.template .gitmessage
+```
