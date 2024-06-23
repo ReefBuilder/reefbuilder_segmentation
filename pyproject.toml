@@ -10,6 +10,9 @@ python = ">=3.11,<3.12"
 ultralytics = "^8.1.47"
 supervision = "0.17"
 dataclasses-json = "^0.6.4"
+numpy = "^2.0.0"
+opencv-python = "^4.10.0.84"
+fiftyone = "^0.24.1"
 
 [build-system]
 requires = ["poetry-core"]
