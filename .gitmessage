@@ -5,6 +5,11 @@
 # Think of your title as akin to an email subject,
 # so you don't need to end with a sentence period.
 # Use 50 char maximum, which is this line's width.
+
+# To understand if your commit message follows
+# correct grammar, put it in the following sentence:
+# “If applied, my commit will
+# (INSERT COMMIT MESSAGE TEXT)”
 ##################################################
 Add your title here
 
