@@ -6,8 +6,8 @@
 
 Create and activate a conda virtual environment based on python 3.11
 ```commandline
-conda create -n reefbuilder-segmentation python=3.11
-conda activate reefbuilder-segmentation
+conda create -n reefbuilder_segmentation python=3.11
+conda activate reefbuilder_segmentation
 ```
 
 ### 2. Install Poetry
