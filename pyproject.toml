@@ -1,12 +1,16 @@
+# Overview:
+# This pyproject.toml file manages the build, packaging, and distribution of the reefbuilder_segmentation library.
+# It defines essential project metadata, dependencies, and settings used to develop and deploy the library.
+
 [tool.poetry]
-name = "coral-detection"
-version = "0.1.0"
-description = ""
-authors = ["Your Name <you@example.com>"]
+name = "reefbuilder_segmentation"
+version = "0.0.3"
+description = "An instance segmentation library focussed on solving marine conservation-related problems"
+authors = ["Ishan Nangia <ishannangia.123@gmail.com>"]
 readme = "README.md"
 
 [tool.poetry.dependencies]
-python = ">=3.11,<3.12"
+python = ">=3.10,<3.12"
 ultralytics = "^8.1.47"
 supervision = "0.17"
 dataclasses-json = "^0.6.4"
