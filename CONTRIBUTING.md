@@ -43,3 +43,7 @@ Run the following to automatically initialise the template in the default commit
 Black is being used as the formatter. Post the above steps it should already be installed in your
 environment. Either follow online instructions to set up Black with your IDE of choice, or you can 
 simply run Black using the terminal. Documentation can be found [here](https://black.readthedocs.io/en/stable/).
+
+### 6. Linting code using Flake8
+[Flake8](https://pypi.org/project/flake8/) is being used as the linter of choice. Use it how you want to 
+lint and style your code properly.
