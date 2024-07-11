@@ -31,10 +31,15 @@ the dependencies (which will update the `poetry.lock` file, which should be comm
 
 
 ### 4. Create Git commit message template
-This repo uses a specific format for git commits. This format can be found in the .gitmessage file.
+This repo uses a specific format for git commits. This format can be found in the ".gitmessage" file.
 
 Run the following to automatically initialise the template in the default commit message:
 
 ```shell
  git config --local commit.template .gitmessage
 ```
+
+### 5. Format code using Black
+Black is being used as the formatter. Post the above steps it should already be installed in your
+environment. Either follow online instructions to set up Black with your IDE of choice, or you can 
+simply run Black using the terminal. Documentation can be found [here](https://black.readthedocs.io/en/stable/).
