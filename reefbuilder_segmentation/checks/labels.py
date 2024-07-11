@@ -9,6 +9,7 @@ class LabelChecker:
     """
     Implements basic checks on a folder of files with labels to ensure that downstream processing is not a problem
     """
+
     def __init__(self, source_folder_path):
         """
         Initialise the function with a path to the source folder where all label files are located
@@ -25,12 +26,12 @@ class LabelChecker:
         """
         Provides a basic description of the label files contained in the folder
         """
-        print(f'Number of files:', len(self.source_labels))
+        print(f"Number of files:", len(self.source_labels))
 
     # TODO: add logger support for below function
     def check_labels(self):
         for file in self.source_labels:
-            with open(file, 'r') as f:
+            with open(file, "r") as f:
                 json_file = json.load(f)
             messages = label_checks.coco_validator(json_file, file)
             for message in messages:

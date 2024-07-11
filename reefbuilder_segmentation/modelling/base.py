@@ -3,13 +3,17 @@ import os
 import shutil
 
 import reefbuilder_segmentation.config as cfg
-from reefbuilder_segmentation.utils.modelling.yolo import export_yolo_data, test_on_data_with_labels_yolo
+from reefbuilder_segmentation.utils.modelling.yolo import (
+    export_yolo_data,
+    test_on_data_with_labels_yolo,
+)
 
 
 class Model:
     """
     Class for creating a model to model the given inputs and train on them.
     """
+
     def __init__(self, fo_dataset):
         self.dataset = fo_dataset  # fiftyone dataset
         self.model = None  # points to the loaded model itself
@@ -20,12 +24,19 @@ class Model:
         self.valid_metrics = None  # metrics on validation set
         self.test_metrics = None
 
-    def train_yolo(self, model_location=None, data_location='../data', epochs=100, patience=0, **kwargs):
-        self.model_type = 'YOLO'
+    def train_yolo(
+        self,
+        model_location=None,
+        data_location="../data",
+        epochs=100,
+        patience=0,
+        **kwargs
+    ):
+        self.model_type = "YOLO"
 
         # create yolo dataset and files from fiftyone dataset
         self.data_folder = data_location
-        export_yolo_data(self.dataset, self.data_folder, split=['train', 'val', 'test'])
+        export_yolo_data(self.dataset, self.data_folder, split=["train", "val", "test"])
 
         # initialise and read model (pretrained or base)
         if model_location:
@@ -33,11 +44,11 @@ class Model:
             try:
                 model = YOLO(model_location)
             except:
-                print('The given model location doesnt exist...')
+                print("The given model location doesnt exist...")
                 return
         else:
             # TODO: allow for specifying location for saving downloaded model
-            print('Starting training from base model...')
+            print("Starting training from base model...")
             model = YOLO(cfg.base_yolo_model)
 
             src = cfg.base_yolo_model
@@ -53,26 +64,28 @@ class Model:
 
         # TODO: manage run folder creation. Where should it get created?
         # train model
-        results = self.model.train(data=os.path.join(self.data_folder, 'dataset.yaml'),
-                                   epochs=epochs,
-                                   plots=True,
-                                   patience=patience,
-                                   **kwargs)
+        results = self.model.train(
+            data=os.path.join(self.data_folder, "dataset.yaml"),
+            epochs=epochs,
+            plots=True,
+            patience=patience,
+            **kwargs
+        )
 
         # updating model parameters
-        self.model_location = os.path.join(results.save_dir, 'weights', 'best.pt')
+        self.model_location = os.path.join(results.save_dir, "weights", "best.pt")
         self.model = YOLO(self.model_location)
 
         # updating results
-        self.train_metrics = test_on_data_with_labels_yolo(os.path.join(self.data_folder, 'dataset.yaml'),
-                                                           'train',
-                                                           model=self.model)
-        self.valid_metrics = test_on_data_with_labels_yolo(os.path.join(self.data_folder, 'dataset.yaml'),
-                                                           'val',
-                                                           model=self.model)
-        self.test_metrics = test_on_data_with_labels_yolo(os.path.join(self.data_folder, 'dataset.yaml'),
-                                                          'test',
-                                                          model=self.model)
+        self.train_metrics = test_on_data_with_labels_yolo(
+            os.path.join(self.data_folder, "dataset.yaml"), "train", model=self.model
+        )
+        self.valid_metrics = test_on_data_with_labels_yolo(
+            os.path.join(self.data_folder, "dataset.yaml"), "val", model=self.model
+        )
+        self.test_metrics = test_on_data_with_labels_yolo(
+            os.path.join(self.data_folder, "dataset.yaml"), "test", model=self.model
+        )
 
-        print('\n || Model results saved here:', results.save_dir, "|| \n")
+        print("\n || Model results saved here:", results.save_dir, "|| \n")
         return None

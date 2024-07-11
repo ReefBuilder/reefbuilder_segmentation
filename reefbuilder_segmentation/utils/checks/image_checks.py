@@ -8,7 +8,9 @@ def all_images_same_dim(all_images, dim, assertion_size):
         image = cv2.imread(image_path)
         dim_to_assert = image.shape[dim]
         if dim_to_assert != assertion_size:
-            messages.append(f"Dimension {dim} of {os.path.basename(image_path)} isnt {assertion_size}")
+            messages.append(
+                f"Dimension {dim} of {os.path.basename(image_path)} isnt {assertion_size}"
+            )
     return messages
 
 
@@ -30,7 +32,7 @@ def open_image(path):
         image = cv2.imread(path)
         assert image is not None
     except:
-        message = f'{os.path.basename(path)} is not a valid image file'
+        message = f"{os.path.basename(path)} is not a valid image file"
     return message, image
 
 
@@ -38,7 +40,7 @@ def n_channels(image, n, path):
     message = None
     channels = image.shape[-1]
     if channels != n:
-        message = f'{os.path.basename(path)} doesnt have {n} channels'
+        message = f"{os.path.basename(path)} doesnt have {n} channels"
     return message
 
 
@@ -46,5 +48,5 @@ def height_width(image, path):
     message = None
     height, width, _ = image.shape
     if (height <= 0) or (width <= 0):
-        message = f'{os.path.basename(path)} has either h/w == 0'
+        message = f"{os.path.basename(path)} has either h/w == 0"
     return message

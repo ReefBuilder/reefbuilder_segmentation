@@ -11,6 +11,7 @@ class ImageChecker:
     """
     Implements basic checks on a folder of images to ensure that downstream processing is not a problem
     """
+
     def __init__(self, source_folder_path):
         """
         Initialise the function with a path to the source folder where all images are located
@@ -31,7 +32,7 @@ class ImageChecker:
         """
         Provides a basic description of the images contained in the folder
         """
-        print(f'Number of files:', len(self.source_images))
+        print(f"Number of files:", len(self.source_images))
         formats = []
         heights = []
         widths = []
@@ -47,11 +48,15 @@ class ImageChecker:
             heights.append(height)
             widths.append(width)
             channels.append(n_channels)
-        print_unique_count_of_arrays([np.array(formats),
-                                      np.array(heights),
-                                      np.array(widths),
-                                      np.array(channels)],
-                                     ['- Extension', '- Height', '- Width', '- Number of Channels'])
+        print_unique_count_of_arrays(
+            [
+                np.array(formats),
+                np.array(heights),
+                np.array(widths),
+                np.array(channels),
+            ],
+            ["- Extension", "- Height", "- Width", "- Number of Channels"],
+        )
 
     # TODO: add logger support for below function
     def check_images(self):
@@ -60,11 +65,15 @@ class ImageChecker:
             for message in messages:
                 print(message)
         if self.check_if_all_images_same_height:
-            messages = image_checks.all_images_same_dim(self.source_images, 1, self.check_if_all_images_same_height)
+            messages = image_checks.all_images_same_dim(
+                self.source_images, 1, self.check_if_all_images_same_height
+            )
             for message in messages:
                 print(message)
         if self.check_if_all_images_same_width:
-            messages = image_checks.all_images_same_dim(self.source_images, 2, self.check_if_all_images_same_width)
+            messages = image_checks.all_images_same_dim(
+                self.source_images, 2, self.check_if_all_images_same_width
+            )
             for message in messages:
                 print(message)
         return None

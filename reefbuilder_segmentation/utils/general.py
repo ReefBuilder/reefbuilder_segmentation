@@ -37,13 +37,15 @@ def get_sam_masks(yolo_result, sam, resized_image):
     class_ids = yolo_result.boxes.cls.cpu().numpy()
 
     mask_predictor = SamPredictor(sam)
-    transformed_boxes = mask_predictor.transform.apply_boxes_torch(input_boxes, resized_image.shape[:2])
+    transformed_boxes = mask_predictor.transform.apply_boxes_torch(
+        input_boxes, resized_image.shape[:2]
+    )
     mask_predictor.set_image(resized_image)
     masks, iou_predictions, low_res_masks = mask_predictor.predict_torch(
         point_coords=None,
         point_labels=None,
         boxes=transformed_boxes,
-        multimask_output=False
+        multimask_output=False,
     )
     return masks, class_ids
 
@@ -53,11 +55,7 @@ def create_detections(masks, class_ids):
     xyxys = np.array([sv.mask_to_xyxy(masks=i.cpu()) for i in masks])
     xyxys = xyxys.squeeze(1)
     numpy_masks = masks.cpu().numpy().squeeze(1)
-    detections = sv.Detections(
-        class_id=class_ids,
-        xyxy=xyxys,
-        mask=numpy_masks
-    )
+    detections = sv.Detections(class_id=class_ids, xyxy=xyxys, mask=numpy_masks)
     return detections
 
 
@@ -68,11 +66,12 @@ def draw_masks_image(image_bgr, detections):
     source_image = image_bgr.copy()
     segmented_image = image_bgr.copy()
 
-    source_image = box_annotator.annotate(scene=source_image,
-                                          detections=detections,
-                                          skip_label=False)
-    segmented_image = mask_annotator.annotate(scene=segmented_image,
-                                              detections=detections)
+    source_image = box_annotator.annotate(
+        scene=source_image, detections=detections, skip_label=False
+    )
+    segmented_image = mask_annotator.annotate(
+        scene=segmented_image, detections=detections
+    )
 
     # plot_grid = sv.plot_images_grid(
     #       images=[source_image, segmented_image],
@@ -97,7 +96,7 @@ def load_image_with_resizing(image_address, resize_image_size):
     original_image_size = image_bgr.shape[1], image_bgr.shape[0]
 
     image_rgb = cv2.cvtColor(image_bgr, cv2.COLOR_BGR2RGB)
-    resized_image = cv2.resize(image_rgb, resize_image_size) # for inference in YOLO
+    resized_image = cv2.resize(image_rgb, resize_image_size)  # for inference in YOLO
 
     return image_bgr, image_rgb, resized_image, original_image_size
 
@@ -124,4 +123,4 @@ def print_unique_count_of_arrays(list_of_arrays, labels=None):
 def print_unique_count_of_array(arr):
     unique, counts = np.unique(arr, return_counts=True)
     for item, count in zip(unique, counts):
-        print(f'{item} was observed {count} time(s)')
+        print(f"{item} was observed {count} time(s)")
