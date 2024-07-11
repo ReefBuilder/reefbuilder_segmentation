@@ -9,18 +9,23 @@ from reefbuilder_segmentation.utils.checks import image_checks
 
 class ImageChecker:
     """
-    Implements basic checks on a folder of images to ensure that downstream processing is not a problem
+    Implements basic checks on a folder of images to ensure that
+    downstream processing is not a problem
     """
 
     def __init__(self, source_folder_path):
         """
-        Initialise the function with a path to the source folder where all images are located
+        Initialise the function with a path to the source
+        folder where all images are located
         """
         # saving and storing images
         self.source_folder_path = source_folder_path
         self.source_images = []
         for image_format in cfg.accepted_image_formats:
-            images = glob(os.path.join(self.source_folder_path, f"*.{image_format}"))
+            glob_this = os.path.join(
+                self.source_folder_path, f"*.{image_format}"
+            )  # noqa
+            images = glob(glob_this)
             images = [os.path.abspath(image) for image in images]
             self.source_images.extend(images)
 
@@ -32,13 +37,13 @@ class ImageChecker:
         """
         Provides a basic description of the images contained in the folder
         """
-        print(f"Number of files:", len(self.source_images))
+        print("Number of files:", len(self.source_images))
         formats = []
         heights = []
         widths = []
         channels = []
         # TODO: should we make this exif data based to reduce loading?
-        # TODO: Abstract this function and make a common describe_images function
+        # TODO: Abstract this fn and make common describe_images fn
         for image_path in self.source_images:
             image_format = image_path.split(".")[-1]
             image = cv2.imread(image_path)

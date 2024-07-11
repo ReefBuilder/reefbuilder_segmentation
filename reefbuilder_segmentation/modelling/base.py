@@ -17,9 +17,9 @@ class Model:
     def __init__(self, fo_dataset):
         self.dataset = fo_dataset  # fiftyone dataset
         self.model = None  # points to the loaded model itself
-        self.model_type = None  # type of model currently being used: YOLO, DETECTRON
-        self.model_location = None  # location from where model has been loaded
-        self.data_folder = None  # folder containing the actual data (when using YOLO)
+        self.model_type = None  # type of model being used: YOLO, DETECTRON
+        self.model_location = None  # location from where model is loaded
+        self.data_folder = None  # folder containing data (when using YOLO)
         self.train_metrics = None
         self.valid_metrics = None  # metrics on validation set
         self.test_metrics = None
@@ -36,7 +36,8 @@ class Model:
 
         # create yolo dataset and files from fiftyone dataset
         self.data_folder = data_location
-        export_yolo_data(self.dataset, self.data_folder, split=["train", "val", "test"])
+        splits = ["train", "val", "test"]
+        export_yolo_data(self.dataset, self.data_folder, split=splits)
 
         # initialise and read model (pretrained or base)
         if model_location:
@@ -73,18 +74,20 @@ class Model:
         )
 
         # updating model parameters
-        self.model_location = os.path.join(results.save_dir, "weights", "best.pt")
+        loc = os.path.join(results.save_dir, "weights", "best.pt")
+        self.model_location = loc
         self.model = YOLO(self.model_location)
 
         # updating results
+        data_yaml = os.path.join(self.data_folder, "dataset.yaml")
         self.train_metrics = test_on_data_with_labels_yolo(
-            os.path.join(self.data_folder, "dataset.yaml"), "train", model=self.model
+            data_yaml, "train", model=self.model
         )
         self.valid_metrics = test_on_data_with_labels_yolo(
-            os.path.join(self.data_folder, "dataset.yaml"), "val", model=self.model
+            data_yaml, "val", model=self.model
         )
         self.test_metrics = test_on_data_with_labels_yolo(
-            os.path.join(self.data_folder, "dataset.yaml"), "test", model=self.model
+            data_yaml, "test", model=self.model
         )
 
         print("\n || Model results saved here:", results.save_dir, "|| \n")

@@ -20,8 +20,8 @@ def duplicate_image_names(coco_file_paths):
         duplicate_names = list(duplicate_dict.keys())
         # TODO: Print out the coco files to check too if duplicates are found
         message = (
-            f"{n_duplicate_names} duplicate image names detected in COCO files.\n"
-            f"Duplicates found for files: {duplicate_names}."
+            f"{n_duplicate_names} duplicate image names detected"
+            f"in COCO files.\n Duplicates found for files: {duplicate_names}."
         )
     return message
 
@@ -32,13 +32,14 @@ def coco_validator(coco, file_path):
     n_missing_keys = check_coco_keys(coco)
     if n_missing_keys:
         messages.append(
-            f"COCO file {file_base_name} was missing {n_missing_keys} keys in the file"
+            f"COCO file {file_base_name} was missing"
+            f"{n_missing_keys} keys in the file"
         )
     try:
         result = check_coco_categories(coco["categories"])
         if result:
             messages.append(
-                f"COCO file {file_base_name} has a problematic categories object"
+                f"COCO file {file_base_name} has a problematic categories object"  # noqa
             )
         result = check_coco_images(coco["images"])
         if result:
@@ -48,11 +49,12 @@ def coco_validator(coco, file_path):
         result = check_coco_annotations(coco["annotations"])
         if result:
             messages.append(
-                f"COCO file {file_base_name} has a problematic annotations object"
+                f"COCO file {file_base_name} has a problematic annotations object"  # noqa
             )
     except Exception as e:
         messages.append(
-            f"Error encountered while going through COCO file {file_base_name} with arguments {e.args}"
+            "Error encountered while going through COCO file "
+            f"{file_base_name} with arguments {e.args}"
         )
         pass
     return messages

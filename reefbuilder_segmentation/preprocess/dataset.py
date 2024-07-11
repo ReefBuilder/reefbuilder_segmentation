@@ -9,7 +9,8 @@ from reefbuilder_segmentation.utils.preprocessor.dataset import (
 
 class Preprocessor:
     """
-    Preprocessor process the images to create a dataset that is ready for the downstream machine learning pipeline
+    Preprocessor process the images to create a dataset that is
+    ready for the downstream machine learning pipeline
     """
 
     def __init__(self, image_folder_path, coco_file_paths):

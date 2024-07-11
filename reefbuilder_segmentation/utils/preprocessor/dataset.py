@@ -28,4 +28,9 @@ def preprocess_dataset_with_config(fo_dataset, config):
         new_fo_dataset.match_tags("val"),
         new_fo_dataset.match_tags("test"),
     )
-    return new_fo_dataset, train_view.clone(), val_view.clone(), test_view.clone()
+    return (
+        new_fo_dataset,
+        train_view.clone(),
+        val_view.clone(),
+        test_view.clone(),
+    )

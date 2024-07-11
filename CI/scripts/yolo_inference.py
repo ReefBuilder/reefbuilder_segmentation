@@ -1,8 +1,12 @@
 from ultralytics import YOLO
 
-from reefbuilder_segmentation.utils.test_utils import generate_yolo_prediction_images
+from reefbuilder_segmentation.utils.test_utils import (
+    generate_yolo_prediction_images,
+)  # noqa
 
-model_checkpoint = "../models/megalodon_Coral-Detection-CI-22-23-Season-1_best_180.pt"
+model_checkpoint = (
+    "../models/megalodon_Coral-Detection-CI-22-23-Season-1_best_180.pt"  # noqa
+)
 test_data_folders = [
     "../data/test_data/22-23 Coral Table Test Images",
     "../data/test_data/23-24 AR Test Images",

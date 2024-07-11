@@ -1,10 +1,9 @@
 import fiftyone as fo
 import yaml
 from ultralytics import YOLO
-import os
 
 
-# TODO: Extend function to add fo functionalities for customisation in the future
+# TODO: Extend function to add fo customisation functionalities
 def export_yolo_data(
     samples, export_dir=".", classes=None, label_field=None, split=None
 ):
@@ -42,7 +41,11 @@ def generate_test_yaml(yaml_location, ds_split, save_location):
 
 # TODO: modify function to allow testing on any arbitrary dataset with labels
 def test_on_data_with_labels_yolo(
-    source_yaml_location, ds_split=None, model=None, model_location=None, **kwargs
+    source_yaml_location,
+    ds_split=None,
+    model=None,
+    model_location=None,
+    **kwargs  # noqa
 ):
     # load saved model
     if model is None:
@@ -50,7 +53,9 @@ def test_on_data_with_labels_yolo(
         model = YOLO(model_location)
 
     # test on saved test dataset
-    test_metrics = model.val(data=source_yaml_location, split=ds_split, **kwargs)
+    test_metrics = model.val(
+        data=source_yaml_location, split=ds_split, **kwargs
+    )  # noqa
 
     # save metrics
     return test_metrics

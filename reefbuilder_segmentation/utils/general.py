@@ -15,7 +15,8 @@ def load_image(img_name, img_address, resized_image_size):
     original_image_size = image_bgr.shape[1], image_bgr.shape[0]
 
     image_rgb = cv2.cvtColor(image_bgr, cv2.COLOR_BGR2RGB)
-    resized_image = cv2.resize(image_rgb, resized_image_size)  # for inference in YOLO
+    # for proper inference in YOLO, we create a resized image
+    resized_image = cv2.resize(image_rgb, resized_image_size)
 
     return image_bgr, image_rgb, resized_image, original_image_size
 
@@ -27,27 +28,29 @@ def draw_bboxes_xyxyn(bboxes, img):
         x, y, x1, y1 = box
         x, x1 = x * img.shape[1], x1 * img.shape[1]
         y, y1 = y * img.shape[0], y1 * img.shape[0]
-        cv2.rectangle(drawn_img, (int(x), int(y)), (int(x1), int(y1)), colors[0], 10)
+        tuple_xy = (int(x), int(y))
+        tuple_x1y1 = (int(x1), int(y1))
+        cv2.rectangle(drawn_img, tuple_xy, tuple_x1y1, colors[0], 10)
     return drawn_img
 
 
-def get_sam_masks(yolo_result, sam, resized_image):
-    # multiple bounding boxes as input for a single image
-    input_boxes = yolo_result.boxes.xyxy
-    class_ids = yolo_result.boxes.cls.cpu().numpy()
-
-    mask_predictor = SamPredictor(sam)
-    transformed_boxes = mask_predictor.transform.apply_boxes_torch(
-        input_boxes, resized_image.shape[:2]
-    )
-    mask_predictor.set_image(resized_image)
-    masks, iou_predictions, low_res_masks = mask_predictor.predict_torch(
-        point_coords=None,
-        point_labels=None,
-        boxes=transformed_boxes,
-        multimask_output=False,
-    )
-    return masks, class_ids
+# def get_sam_masks(yolo_result, sam, resized_image):
+#     # multiple bounding boxes as input for a single image
+#     input_boxes = yolo_result.boxes.xyxy
+#     class_ids = yolo_result.boxes.cls.cpu().numpy()
+#
+#     mask_predictor = SamPredictor(sam)
+#     transformed_boxes = mask_predictor.transform.apply_boxes_torch(
+#         input_boxes, resized_image.shape[:2]
+#     )
+#     mask_predictor.set_image(resized_image)
+#     masks, iou_predictions, low_res_masks = mask_predictor.predict_torch(
+#         point_coords=None,
+#         point_labels=None,
+#         boxes=transformed_boxes,
+#         multimask_output=False,
+#     )
+#     return masks, class_ids
 
 
 def create_detections(masks, class_ids):
@@ -55,7 +58,7 @@ def create_detections(masks, class_ids):
     xyxys = np.array([sv.mask_to_xyxy(masks=i.cpu()) for i in masks])
     xyxys = xyxys.squeeze(1)
     numpy_masks = masks.cpu().numpy().squeeze(1)
-    detections = sv.Detections(class_id=class_ids, xyxy=xyxys, mask=numpy_masks)
+    detections = sv.Detections(class_id=class_ids, xyxy=xyxys, mask=numpy_masks)  # noqa
     return detections
 
 
@@ -96,7 +99,8 @@ def load_image_with_resizing(image_address, resize_image_size):
     original_image_size = image_bgr.shape[1], image_bgr.shape[0]
 
     image_rgb = cv2.cvtColor(image_bgr, cv2.COLOR_BGR2RGB)
-    resized_image = cv2.resize(image_rgb, resize_image_size)  # for inference in YOLO
+    # below creates a resized image for inference in YOLO
+    resized_image = cv2.resize(image_rgb, resize_image_size)
 
     return image_bgr, image_rgb, resized_image, original_image_size
 

@@ -1,12 +1,11 @@
 import os
-from glob import glob
 
 from reefbuilder_segmentation.utils.general import (
     get_images_from_folder,
     load_image_with_resizing,
     save_image,
 )
-from reefbuilder_segmentation.utils.visualisation_utils import draw_bboxes_xyxyn
+from reefbuilder_segmentation.utils.visualisation_utils import draw_bboxes_xyxyn  # noqa
 
 # TODO: read global variables from central cfg file
 RESIZE_IMAGE_SIZE = (640, 490)
@@ -25,7 +24,7 @@ def generate_yolo_prediction_images(
     # Reading in all images
     image_paths, image_bgrs, image_rgbs, resized_images = read_images_from_folder(
         test_folder_path, RESIZE_IMAGE_SIZE
-    )
+    )  # noqa
     image_names = [i.split("/")[-1] for i in image_paths]
 
     # Getting YOLO predictions for multiple images
@@ -35,7 +34,8 @@ def generate_yolo_prediction_images(
         for result, image_rgb in zip(results, image_rgbs)
     ]
     for image_index, image in enumerate(images_with_bboxes):
-        image_save_path = os.path.join(full_save_path, image_names[image_index])
+        curr_image_name = image_names[image_index]
+        image_save_path = os.path.join(full_save_path, curr_image_name)
         save_image(image, image_save_path)
     return None
 

@@ -8,9 +8,12 @@ def all_images_same_dim(all_images, dim, assertion_size):
         image = cv2.imread(image_path)
         dim_to_assert = image.shape[dim]
         if dim_to_assert != assertion_size:
-            messages.append(
-                f"Dimension {dim} of {os.path.basename(image_path)} isnt {assertion_size}"
+            message_str = (
+                f"Dimension {dim} of"
+                f"{os.path.basename(image_path)}"
+                f"isn't {assertion_size}"
             )
+            messages.append(message_str)
     return messages
 
 

@@ -9,5 +9,7 @@ def draw_bboxes_xyxyn(bboxes, image):
         x, y, x1, y1 = box
         x, x1 = x * image.shape[1], x1 * image.shape[1]
         y, y1 = y * image.shape[0], y1 * image.shape[0]
-        cv2.rectangle(drawn_img, (int(x), int(y)), (int(x1), int(y1)), colors[0], 10)
+        tuple_xy = (int(x), int(y))
+        tuple_x1y1 = (int(x1), int(y1))
+        cv2.rectangle(drawn_img, tuple_xy, tuple_x1y1, colors[0], 10)
     return drawn_img
