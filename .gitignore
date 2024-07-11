@@ -2,7 +2,7 @@
 .idea
 
 # data folder
-data
+#data
 
 # models folder
 CI/models

@@ -2,10 +2,11 @@ from reefbuilder_segmentation.preprocess.dataset import Preprocessor
 from reefbuilder_segmentation.modelling.base import Model
 
 # preprocessing
-image_folder_path = "/Users/ishannangia/Desktop/del_this_images"
-coco_files = ["/Users/ishannangia/Desktop/coco_7.12.22_table_4.json"]
+image_folder_path = "../data/data_sample_correct/images"
+coco_files = ["../data/data_sample_correct/labels/labels-coco.json"]
+
 preprocess_config = {
-    "label_mapping": {"ref": "REF", "coral": "CORAL"},
+    "label_mapping": {"eyes": "EYE", "nose": "NOSE"},
     "train_percentage": 0.8,
     "val_percentage": 0.1,
     "test_percentage": 0.1,
