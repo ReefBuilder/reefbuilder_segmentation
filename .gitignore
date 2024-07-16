@@ -1,8 +1,8 @@
 # pycharm-specific file
 .idea
 
-# data folder
-#data
+# logs folder
+logs
 
 # models folder
 CI/models

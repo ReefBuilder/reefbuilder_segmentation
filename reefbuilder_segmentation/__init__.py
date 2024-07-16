@@ -13,6 +13,7 @@ def setup_logging():
 
 def main():
     setup_logging()
+    logging.info("\n---*---")
     logging.info("Logger has been setup. Logging now...")
 
 
