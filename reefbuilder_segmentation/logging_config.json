@@ -4,6 +4,10 @@
   "formatters": {
     "simple": {
       "format": "%(levelname)s: %(message)s"
+    },
+    "detailed": {
+      "format": "[%(levelname)s|%(module)s|L%(lineno)d] %(asctime)s:  %(message)s",
+      "datefmt": "%Y-%m-%dT%H:%M:%S%z"
     }
   },
   "handlers": {
@@ -15,8 +19,8 @@
     },
     "file": {
       "class": "logging.handlers.RotatingFileHandler",
-      "level": "DEBUG",
-      "formatter": "simple",
+      "level": "INFO",
+      "formatter": "detailed",
       "filename": "/Users/ish/github_repos/reefbuilder_segmentation/reefbuilder_segmentation/logs/rf_seg.log",
       "maxBytes": 10000,
       "backupCount": 3
