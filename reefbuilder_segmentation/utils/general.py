@@ -3,9 +3,11 @@ import numpy as np
 import supervision as sv
 from glob import glob
 import os
+import logging
 
 # TODO: read global variables from config file
 POSSIBLE_IMAGE_EXTENSIONS = ["jpg", "JPG", "png", "PNG"]
+logger = logging.getLogger("reefbuilder_segmentation")
 
 
 # TODO: add data types to function parameters and function return types
@@ -120,11 +122,11 @@ def load_text_file(file_path):
 def print_unique_count_of_arrays(list_of_arrays, labels=None):
     for idx, arr in enumerate(list_of_arrays):
         if labels:
-            print(labels[idx])
+            logger.info(labels[idx])
         print_unique_count_of_array(arr)
 
 
 def print_unique_count_of_array(arr):
     unique, counts = np.unique(arr, return_counts=True)
     for item, count in zip(unique, counts):
-        print(f"{item} was observed {count} time(s)")
+        logger.info(f"{item} was observed {count} time(s)")

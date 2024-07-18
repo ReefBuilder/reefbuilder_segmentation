@@ -2,9 +2,12 @@ from glob import glob
 import cv2
 import numpy as np
 import os
+import logging
 import reefbuilder_segmentation.config as cfg
 from reefbuilder_segmentation.utils.general import print_unique_count_of_arrays
 from reefbuilder_segmentation.utils.checks import image_checks
+
+logger = logging.getLogger("reefbuilder_segmentation")
 
 
 class ImageChecker:
@@ -37,7 +40,7 @@ class ImageChecker:
         """
         Provides a basic description of the images contained in the folder
         """
-        print("Number of files:", len(self.source_images))
+        logger.info(f"Number of files:{len(self.source_images)}")
         formats = []
         heights = []
         widths = []
@@ -68,17 +71,17 @@ class ImageChecker:
         for image_path in self.source_images:
             messages = image_checks.basic_image_check(image_path)
             for message in messages:
-                print(message)
+                logger.info(message)
         if self.check_if_all_images_same_height:
             messages = image_checks.all_images_same_dim(
                 self.source_images, 1, self.check_if_all_images_same_height
             )
             for message in messages:
-                print(message)
+                logger.info(message)
         if self.check_if_all_images_same_width:
             messages = image_checks.all_images_same_dim(
                 self.source_images, 2, self.check_if_all_images_same_width
             )
             for message in messages:
-                print(message)
+                logger.info(message)
         return None
