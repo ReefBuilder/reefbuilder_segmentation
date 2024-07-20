@@ -21,7 +21,7 @@
       "class": "logging.handlers.RotatingFileHandler",
       "level": "INFO",
       "formatter": "detailed",
-      "filename": "/Users/ish/github_repos/reefbuilder_segmentation/reefbuilder_segmentation/logs/rf_seg.log",
+      "filename": "./logs/rf_seg.log",
       "maxBytes": 10000,
       "backupCount": 3
     }
