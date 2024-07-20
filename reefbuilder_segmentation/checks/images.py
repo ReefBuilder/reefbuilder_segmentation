@@ -7,7 +7,7 @@ import reefbuilder_segmentation.config as cfg
 from reefbuilder_segmentation.utils.general import print_unique_count_of_arrays
 from reefbuilder_segmentation.utils.checks import image_checks
 
-logger = logging.getLogger("reefbuilder_segmentation")
+logger = logging.getLogger(cfg.logger_name)
 
 
 class ImageChecker:
@@ -66,7 +66,6 @@ class ImageChecker:
             ["- Extension", "- Height", "- Width", "- Number of Channels"],
         )
 
-    # TODO: add logger support for below function
     def check_images(self):
         for image_path in self.source_images:
             messages = image_checks.basic_image_check(image_path)

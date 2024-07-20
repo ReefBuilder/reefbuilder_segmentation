@@ -1,8 +1,11 @@
 from glob import glob
 import os
+import logging
 import json
 import reefbuilder_segmentation.config as cfg
 from reefbuilder_segmentation.utils.checks import label_checks
+
+logger = logging.getLogger(cfg.logger_name)
 
 
 class LabelChecker:
@@ -32,17 +35,16 @@ class LabelChecker:
         Provides a basic description of the label files
         contained in the folder
         """
-        print("Number of files:", len(self.source_labels))
+        logger.info(f"Number of files: {len(self.source_labels)}")
 
-    # TODO: add logger support for below function
     def check_labels(self):
         for file in self.source_labels:
             with open(file, "r") as f:
                 json_file = json.load(f)
             messages = label_checks.coco_validator(json_file, file)
             for message in messages:
-                print(message)
+                logger.info(message)
         message = label_checks.duplicate_image_names(self.source_labels)
         if message:
-            print(message)
+            logger.info(message)
         return None
