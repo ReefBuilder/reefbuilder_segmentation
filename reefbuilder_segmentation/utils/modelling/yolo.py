@@ -1,6 +1,10 @@
 import fiftyone as fo
 import yaml
 from ultralytics import YOLO
+import logging
+import reefbuilder_segmentation.config as cfg
+
+logging = logging.getLogger(cfg.logger_name)
 
 
 # TODO: Extend function to add fo customisation functionalities
@@ -32,7 +36,7 @@ def generate_test_yaml(yaml_location, ds_split, save_location):
         try:
             yaml_file = yaml.safe_load(stream)
         except yaml.YAMLError as exc:
-            print(exc)
+            logger.error(exc)
         yaml_file["val"] = yaml_file[ds_split]
     with open(save_location, "w") as stream:
         yaml.dump(yaml_file, stream)

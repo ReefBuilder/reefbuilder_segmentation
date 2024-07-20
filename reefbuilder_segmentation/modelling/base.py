@@ -1,3 +1,5 @@
+import logging
+
 from ultralytics import YOLO
 import os
 import shutil
@@ -7,6 +9,8 @@ from reefbuilder_segmentation.utils.modelling.yolo import (
     export_yolo_data,
     test_on_data_with_labels_yolo,
 )
+
+logger = logging.Logger(cfg.logger_name)
 
 
 class Model:
@@ -45,11 +49,11 @@ class Model:
             try:
                 model = YOLO(model_location)
             except:
-                print("The given model location doesnt exist...")
+                logger.error("The given model location doesnt exist...")
                 return
         else:
             # TODO: allow for specifying location for saving downloaded model
-            print("Starting training from base model...")
+            logger.info("Starting training from base model...")
             model = YOLO(cfg.base_yolo_model)
 
             src = cfg.base_yolo_model
@@ -90,5 +94,6 @@ class Model:
             data_yaml, "test", model=self.model
         )
 
+        logger.info("\n || Model results saved here:", results.save_dir, "|| \n")
         print("\n || Model results saved here:", results.save_dir, "|| \n")
         return None
