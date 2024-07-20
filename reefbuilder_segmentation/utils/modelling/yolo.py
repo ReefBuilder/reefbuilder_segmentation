@@ -4,7 +4,7 @@ from ultralytics import YOLO
 import logging
 import reefbuilder_segmentation.config as cfg
 
-logging = logging.getLogger(cfg.logger_name)
+logger = logging.getLogger(cfg.logger_name)
 
 
 # TODO: Extend function to add fo customisation functionalities

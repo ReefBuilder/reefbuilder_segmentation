@@ -1,11 +1,12 @@
 import logging.config
 import json
+import reefbuilder_segmentation.config as cfg
 
-logger = logging.getLogger("reefbuilder_segmentation")
+logger = logging.getLogger(cfg.logger_name)
 
 
 def setup_logging():
-    config_file = "/Users/ish/github_repos/reefbuilder_segmentation/reefbuilder_segmentation/logging_config.json"
+    config_file = cfg.log_file_path
     with open(config_file) as f:
         log_config = json.load(f)
     logging.config.dictConfig(log_config)

@@ -34,7 +34,7 @@ class Model:
         data_location="../data",
         epochs=100,
         patience=0,
-        **kwargs
+        **kwargs,
     ):
         self.model_type = "YOLO"
 
@@ -74,7 +74,7 @@ class Model:
             epochs=epochs,
             plots=True,
             patience=patience,
-            **kwargs
+            **kwargs,
         )
 
         # updating model parameters
@@ -94,6 +94,6 @@ class Model:
             data_yaml, "test", model=self.model
         )
 
-        logger.info("\n || Model results saved here:", results.save_dir, "|| \n")
+        logger.info(f"\n || Model results saved here: {results.save_dir} || \n")  # noqa
         print("\n || Model results saved here:", results.save_dir, "|| \n")
         return None
