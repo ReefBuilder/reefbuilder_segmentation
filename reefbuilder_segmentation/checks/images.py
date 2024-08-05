@@ -40,7 +40,8 @@ class ImageChecker:
         """
         Provides a basic description of the images contained in the folder
         """
-        logger.info(f"Number of files:{len(self.source_images)}")
+        logger.info("Describing images now...")
+        logger.info(f"Number of images found:{len(self.source_images)}")
         formats = []
         heights = []
         widths = []
@@ -67,6 +68,9 @@ class ImageChecker:
         )
 
     def check_images(self):
+        logger.info(
+            "Validating images now. Warning messages will appear if error cases are encountered..."
+        )
         for image_path in self.source_images:
             messages = image_checks.basic_image_check(image_path)
             for message in messages:
