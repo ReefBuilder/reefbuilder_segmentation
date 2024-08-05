@@ -33,7 +33,7 @@ def coco_validator(coco, file_path):
     if n_missing_keys:
         messages.append(
             f"COCO file {file_base_name} was missing"
-            f"{n_missing_keys} keys in the file"
+            f" {n_missing_keys} key(s) in the file"
         )
     try:
         result = check_coco_categories(coco["categories"])

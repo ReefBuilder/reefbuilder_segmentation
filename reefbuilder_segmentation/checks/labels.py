@@ -35,16 +35,20 @@ class LabelChecker:
         Provides a basic description of the label files
         contained in the folder
         """
+        logger.info("Describing image labels now...")
         logger.info(f"Number of files: {len(self.source_labels)}")
 
     def check_labels(self):
+        logger.info(
+            "Validating image labels now. Warning messages will appear if error cases are encountered..."
+        )
         for file in self.source_labels:
             with open(file, "r") as f:
                 json_file = json.load(f)
             messages = label_checks.coco_validator(json_file, file)
             for message in messages:
-                logger.warn(message)
+                logger.warning(message)
         message = label_checks.duplicate_image_names(self.source_labels)
         if message:
-            logger.warn(message)
+            logger.warning(message)
         return None
