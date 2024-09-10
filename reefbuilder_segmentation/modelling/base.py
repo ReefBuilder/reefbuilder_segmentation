@@ -1,5 +1,4 @@
 import logging
-
 from ultralytics import YOLO
 import os
 import shutil
@@ -31,12 +30,17 @@ class Model:
     def train_yolo(
         self,
         model_location=None,
-        data_location="../data",
+        data_location="../data/yolo_files/",
         epochs=100,
         patience=0,
         **kwargs,
     ):
         self.model_type = "YOLO"
+
+        # ensuring data dir is created fresh
+        if os.path.exists(data_location):
+            shutil.rmtree(data_location)
+        os.makedirs(data_location, exist_ok=True)
 
         # create yolo dataset and files from fiftyone dataset
         self.data_folder = data_location
