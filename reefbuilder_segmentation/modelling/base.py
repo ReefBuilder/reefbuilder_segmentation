@@ -45,7 +45,8 @@ class Model:
         # create yolo dataset and files from fiftyone dataset
         self.data_folder = data_location
         splits = ["train", "val", "test"]
-        export_yolo_data(self.dataset, self.data_folder, split=splits)
+        classes = self.dataset.default_classes
+        export_yolo_data(self.dataset, self.data_folder, split=splits, classes=classes)
 
         # initialise and read model (pretrained or base)
         if model_location:
