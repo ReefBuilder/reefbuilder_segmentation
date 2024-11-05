@@ -29,17 +29,20 @@ def duplicate_image_names(coco_file_paths):
 def coco_validator(coco, file_path):
     messages = []
     file_base_name = os.path.basename(file_path)
-    n_missing_keys = check_coco_keys(coco)
+    missing_keys, n_missing_keys = check_coco_keys(coco)
     if n_missing_keys:
         messages.append(
             f"COCO file {file_base_name} was missing"
-            f" {n_missing_keys} key(s) in the file"
+            f" {n_missing_keys} key(s) in the file. "
+            f"The following are the missing keys:"
+            f"{missing_keys}"
         )
     try:
-        result = check_coco_categories(coco["categories"])
+        category_message, result = check_coco_categories(coco["categories"])
         if result:
             messages.append(
-                f"COCO file {file_base_name} has a problematic categories object"  # noqa
+                f"COCO file {file_base_name} has a problematic categories object "
+                f"with the following message: {category_message}"
             )
         result = check_coco_images(coco["images"])
         if result:
@@ -63,8 +66,9 @@ def coco_validator(coco, file_path):
 def check_coco_keys(coco):
     needed_keys = {"info", "licenses", "categories", "images", "annotations"}
     existing_keys = set(coco.keys())
-    missing_keys = len(needed_keys - existing_keys)
-    return missing_keys
+    missing_keys = needed_keys - existing_keys
+    n_missing_keys = len(needed_keys - existing_keys)
+    return missing_keys, n_missing_keys
 
 
 def check_coco_categories(categories_list):
@@ -73,12 +77,13 @@ def check_coco_categories(categories_list):
     for category_dict in categories_list:
         ids.append(int(category_dict["id"]))
         existing_keys = set(category_dict.keys())
-        missing_keys = len(needed_keys - existing_keys)
-        if missing_keys:
-            return True
+        missing_keys = needed_keys - existing_keys
+        n_missing_keys = len(missing_keys)
+        if n_missing_keys:
+            return f"Missing keys: {missing_keys}", True
     if (max(ids) + 1) != len(categories_list):
-        return True
-    return False
+        return "IDs of categories don't match #items", True
+    return "", 0
 
 
 def check_coco_images(images_list):
