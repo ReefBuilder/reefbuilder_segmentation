@@ -44,15 +44,17 @@ def coco_validator(coco, file_path):
                 f"COCO file {file_base_name} has a problematic categories object "
                 f"with the following message: {category_message}"
             )
-        result = check_coco_images(coco["images"])
+        images_message, result = check_coco_images(coco["images"])
         if result:
             messages.append(
                 f"COCO file {file_base_name} has a problematic images object"
+                f"with the following message: {images_message}"
             )
-        result = check_coco_annotations(coco["annotations"])
+        annotations_message, result = check_coco_annotations(coco["annotations"])
         if result:
             messages.append(
                 f"COCO file {file_base_name} has a problematic annotations object"  # noqa
+                f"with the following message: {annotations_message}"
             )
     except Exception as e:
         messages.append(
@@ -64,7 +66,7 @@ def coco_validator(coco, file_path):
 
 
 def check_coco_keys(coco):
-    needed_keys = {"info", "licenses", "categories", "images", "annotations"}
+    needed_keys = {"info", "categories", "images", "annotations"}
     existing_keys = set(coco.keys())
     missing_keys = needed_keys - existing_keys
     n_missing_keys = len(needed_keys - existing_keys)
@@ -72,7 +74,7 @@ def check_coco_keys(coco):
 
 
 def check_coco_categories(categories_list):
-    needed_keys = {"id", "name", "supercategory"}
+    needed_keys = {"id", "name"}
     ids = []
     for category_dict in categories_list:
         ids.append(int(category_dict["id"]))
@@ -81,23 +83,24 @@ def check_coco_categories(categories_list):
         n_missing_keys = len(missing_keys)
         if n_missing_keys:
             return f"Missing keys: {missing_keys}", True
-    if (max(ids) + 1) != len(categories_list):
+    if max(ids) != len(categories_list):
         return "IDs of categories don't match #items", True
-    return "", 0
+    return "", False
 
 
 def check_coco_images(images_list):
-    needed_keys = {"id", "license", "file_name", "height", "width"}
+    needed_keys = {"id", "file_name", "height", "width"}
     ids = []
     for images_dict in images_list:
         ids.append(int(images_dict["id"]))
         existing_keys = set(images_dict.keys())
-        missing_keys = len(needed_keys - existing_keys)
-        if missing_keys:
-            return True
+        missing_keys = needed_keys - existing_keys
+        n_missing_keys = len(missing_keys)
+        if n_missing_keys:
+            return f"Missing keys: {missing_keys}", True
     if max(ids) != len(images_list):
-        return True
-    return False
+        return "IDs of images don't match #items", True
+    return "", False
 
 
 def check_coco_annotations(annotations_list):
@@ -114,9 +117,10 @@ def check_coco_annotations(annotations_list):
     for annotations_dict in annotations_list:
         ids.append(int(annotations_dict["id"]))
         existing_keys = set(annotations_dict.keys())
-        missing_keys = len(needed_keys - existing_keys)
-        if missing_keys:
-            return True
-    if max(ids) != len(annotations_list):
-        return True
-    return False
+        missing_keys = needed_keys - existing_keys
+        n_missing_keys = len(missing_keys)
+        if n_missing_keys:
+            return f"Missing keys: {missing_keys}", True
+    if (max(ids) + 1) != len(annotations_list):
+        return "IDs of annotations don't match #items", True
+    return "", False

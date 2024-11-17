@@ -75,12 +75,14 @@ class ImageChecker:
             messages = image_checks.basic_image_check(image_path)
             for message in messages:
                 logger.warning(message)
+        # todo: the argument to all_images_same_dim seems incorrect
         if self.check_if_all_images_same_height:
             messages = image_checks.all_images_same_dim(
                 self.source_images, 1, self.check_if_all_images_same_height
             )
             for message in messages:
                 logger.warning(message)
+        # todo: the argument to all_images_same_dim seems incorrect
         if self.check_if_all_images_same_width:
             messages = image_checks.all_images_same_dim(
                 self.source_images, 2, self.check_if_all_images_same_width
