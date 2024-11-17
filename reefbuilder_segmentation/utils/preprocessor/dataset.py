@@ -2,11 +2,15 @@ import fiftyone.utils.random as four
 
 
 def preprocess_dataset_with_config(fo_dataset, config):
-    # mapping labels
+    # mapping labels and updating classes
     label_mapping = config["label_mapping"]
     new_fo_dataset = fo_dataset.map_labels("segmentations", label_mapping)
     new_fo_dataset = new_fo_dataset.map_labels("detections", label_mapping)
-    new_fo_dataset = new_fo_dataset.clone()
+    new_classes = list(set([i for i in label_mapping.values()]))
+    new_fo_dataset.classes["segmentations"] = new_classes
+    new_fo_dataset.classes["detections"] = new_classes
+    new_fo_dataset.save()
+    # new_fo_dataset = new_fo_dataset.clone()
 
     # train, valid, test
     # TODO: Change these in the future to make the model more flexible

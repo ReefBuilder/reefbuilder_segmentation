@@ -39,13 +39,15 @@ class Model:
 
         # ensuring data dir is created fresh
         if os.path.exists(data_location):
+            logger.info("Directory to create yolo dataset exists. Removing it...")
             shutil.rmtree(data_location)
+        logger.info("Creating new yolo dataset directory...")
         os.makedirs(data_location, exist_ok=True)
 
         # create yolo dataset and files from fiftyone dataset
         self.data_folder = data_location
         splits = ["train", "val", "test"]
-        classes = self.dataset.default_classes
+        classes = self.dataset.classes["segmentations"]
         export_yolo_data(self.dataset, self.data_folder, split=splits, classes=classes)
 
         # initialise and read model (pretrained or base)
@@ -59,10 +61,11 @@ class Model:
         else:
             # TODO: allow for specifying location for saving downloaded model
             logger.info("Starting training from base model...")
-            model = YOLO(cfg.base_yolo_model)
+            YOLO(cfg.base_yolo_model)  # this downloads the model
 
             src = cfg.base_yolo_model
-            dst = os.path.join("..", "models", src)
+            current_dir = os.path.dirname(os.path.abspath(__file__))
+            dst = os.path.join(current_dir, "..", "models", src)
             parent_dst = os.path.split(dst)[0]
             if not os.path.exists(parent_dst):
                 os.makedirs(parent_dst)
