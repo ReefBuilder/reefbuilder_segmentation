@@ -7,9 +7,9 @@ coco_files = ["../data/data_sample_correct/labels/labels-coco.json"]
 
 preprocess_config = {
     "label_mapping": {"eyes": "EYE", "nose": "NOSE"},
-    "train_percentage": 0.6,
-    "val_percentage": 0.2,
-    "test_percentage": 0.2,
+    "train_fraction": 0.6,
+    "val_fraction": 0.2,
+    "test_fraction": 0.2,
     "split_seed": 0,
 }
 
