@@ -20,7 +20,7 @@ class LabelChecker:
         folder where all label files are located
         """
         # saving and storing images
-        self.source_folder_path = source_folder_path
+        self.source_folder_path = os.path.expanduser(source_folder_path)
         self.source_labels = []
         for label_format in cfg.accepted_label_formats:
             this_path = os.path.join(

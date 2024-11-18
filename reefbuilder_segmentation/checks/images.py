@@ -22,7 +22,7 @@ class ImageChecker:
         folder where all images are located
         """
         # saving and storing images
-        self.source_folder_path = source_folder_path
+        self.source_folder_path = os.path.expanduser(source_folder_path)
         self.source_images = []
         for image_format in cfg.accepted_image_formats:
             glob_this = os.path.join(
