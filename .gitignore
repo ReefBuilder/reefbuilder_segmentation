@@ -24,3 +24,6 @@ runs
 
 # YOLO models
 *.pt
+
+# dev/local files
+*_dev*
