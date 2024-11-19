@@ -1,6 +1,7 @@
 import fiftyone as fo
 import fiftyone.utils.labels as foul
 import os
+import glob
 
 from reefbuilder_segmentation.utils.preprocessor.dataset import (
     preprocess_dataset_with_config,
@@ -13,20 +14,21 @@ class Preprocessor:
     ready for the downstream machine learning pipeline
     """
 
-    def __init__(self, image_folder_path, coco_file_paths):
+    def __init__(self, image_folder_path, label_folder_path):
+        # todo: make expanduser a decorator sort of function
+        image_folder_path = os.path.expanduser(image_folder_path)
         assert os.path.exists(
             image_folder_path
         ), "Image Folder Path doesnt exist. Please provide new path..."
-        self.image_folder_path = image_folder_path
 
-        assert type(coco_file_paths) is list, (
-            "COCO files havent been inputted in a list. "
-            "Please input a list of COCO files..."
-        )
-        for file_path in coco_file_paths:
-            assert os.path.exists(
-                file_path
-            ), "At least one COCO file path doesnt exist. Please check..."
+        label_folder_path = os.path.expanduser(label_folder_path)
+        coco_file_paths = glob.glob(os.path.join(label_folder_path, "*"))
+        assert os.path.exists(
+            label_folder_path
+        ), "Label Folder Path doesnt exist. Please provide new path..."
+
+        self.image_folder_path = image_folder_path
+        self.label_folder_path = label_folder_path
         self.coco_file_paths = coco_file_paths
         self.dataset = None
         self.preprocess_config = None

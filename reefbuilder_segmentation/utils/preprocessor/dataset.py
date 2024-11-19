@@ -17,6 +17,7 @@ logger = logging.Logger(cfg.logger_name)
 
 
 def preprocess_dataset_with_config(fo_dataset, config):
+    # todo: make label name changing easier and more flexible as a function
     # mapping labels and updating classes
     label_mapping = config["label_mapping"]
     new_fo_dataset = fo_dataset.map_labels("segmentations", label_mapping)

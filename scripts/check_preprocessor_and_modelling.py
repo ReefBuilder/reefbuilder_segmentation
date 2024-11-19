@@ -3,7 +3,7 @@ from reefbuilder_segmentation.modelling.base import Model
 
 # preprocessing
 image_folder_path = "../data/data_sample_correct/images"
-coco_files = ["../data/data_sample_correct/labels/labels-coco.json"]
+label_folder_path = "../data/data_sample_correct/labels/"
 
 preprocess_config = {
     "label_mapping": {"eyes": "EYE", "nose": "NOSE"},
@@ -13,7 +13,7 @@ preprocess_config = {
     "split_seed": 0,
 }
 
-prep = Preprocessor(image_folder_path, coco_files)
+prep = Preprocessor(image_folder_path, label_folder_path)
 ds = prep.create_dataset()
 prep.preprocess_dataset(preprocess_config)
 
