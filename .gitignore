@@ -27,3 +27,6 @@ runs
 
 # dev/local files
 *_dev*
+
+# yolo files
+yolo_files
