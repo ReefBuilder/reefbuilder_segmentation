@@ -5,6 +5,7 @@ import glob
 
 from reefbuilder_segmentation.utils.preprocessor.dataset import (
     preprocess_dataset_with_config,
+    read_write_images_cv2,
 )
 
 
@@ -35,6 +36,10 @@ class Preprocessor:
         self.test_dataset = None
         self.val_dataset = None
         self.train_dataset = None
+
+        # todo: might want to shift this to imagechecker
+        # to avoid corrupt jpeg images error from ultralytics
+        read_write_images_cv2(glob.glob(os.path.join(image_folder_path, "*")))
 
     def create_dataset(self):
         coco_dataset = fo.Dataset.from_dir(

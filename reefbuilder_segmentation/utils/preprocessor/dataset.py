@@ -2,6 +2,7 @@ import fiftyone.utils.random as four
 import operator
 import logging
 import reefbuilder_segmentation.config as cfg
+import cv2
 
 # Mapping strings to operator functions
 string_to_operator = {
@@ -70,3 +71,13 @@ def assert_fraction(frac, lower_boundary_condition, upper_boundary_condition):
         # Optionally, re-raise the exception if you want the program to stop
         raise
     return None
+
+
+def read_write_images_cv2(list_of_image_file_paths):
+    # this helps prevent corrupted images warning
+    for image_path in list_of_image_file_paths:
+        # Load the image
+        image = cv2.imread(image_path)
+        # Save the image
+        cv2.imwrite(image_path, image)
+    return
