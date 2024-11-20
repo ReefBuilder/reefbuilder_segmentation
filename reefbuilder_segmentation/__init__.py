@@ -12,14 +12,15 @@ def setup_logging():
         log_config = json.load(f)
     log_file_path = log_config["handlers"]["file"]["filename"]
     if not os.path.exists(log_file_path):
-        os.makedirs(os.path.dirname(log_file_path), exist_ok=True)
-    print(f"Log file can be found here: {log_file_path}")
+        os.makedirs(os.path.dirname(os.path.expanduser(log_file_path)), exist_ok=True)
+    base_name = os.path.splitext(os.path.basename(log_file_path))[0]
+    print(f"Log file can be found here. File name will start with {base_name}")
     logging.config.dictConfig(log_config)
 
 
 def main():
     setup_logging()
-    logging.info("\n---*---")
+    logging.info("---*---")
     logging.info("Logger has been setup. Logging now...")
 
 
