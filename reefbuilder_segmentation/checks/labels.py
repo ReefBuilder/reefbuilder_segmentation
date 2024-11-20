@@ -4,6 +4,7 @@ import logging
 import json
 import reefbuilder_segmentation.config as cfg
 from reefbuilder_segmentation.utils.checks import label_checks
+from reefbuilder_segmentation.utils.preprocessor.paths import validate_and_expand_paths
 
 logger = logging.getLogger(cfg.logger_name)
 
@@ -14,6 +15,7 @@ class LabelChecker:
      to ensure that downstream processing is not a problem
     """
 
+    @validate_and_expand_paths("source_folder_path")
     def __init__(self, source_folder_path):
         """
         Initialise the function with a path to the source

@@ -7,6 +7,7 @@ from reefbuilder_segmentation.utils.preprocessor.dataset import (
     preprocess_dataset_with_config,
     read_write_images_cv2,
 )
+from reefbuilder_segmentation.utils.preprocessor.paths import validate_and_expand_paths
 
 
 class Preprocessor:
@@ -15,9 +16,9 @@ class Preprocessor:
     ready for the downstream machine learning pipeline
     """
 
+    @validate_and_expand_paths("image_folder_path", "label_folder_path")
     def __init__(self, image_folder_path, label_folder_path):
-        # todo: make expanduser a decorator sort of function
-        image_folder_path = os.path.expanduser(image_folder_path)
+        image_folder_path = image_folder_path
         assert os.path.exists(
             image_folder_path
         ), "Image Folder Path doesnt exist. Please provide new path..."

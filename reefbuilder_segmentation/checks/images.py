@@ -6,6 +6,7 @@ import logging
 import reefbuilder_segmentation.config as cfg
 from reefbuilder_segmentation.utils.general import print_unique_count_of_arrays
 from reefbuilder_segmentation.utils.checks import image_checks
+from reefbuilder_segmentation.utils.preprocessor.paths import validate_and_expand_paths
 
 logger = logging.getLogger(cfg.logger_name)
 
@@ -16,6 +17,7 @@ class ImageChecker:
     downstream processing is not a problem
     """
 
+    @validate_and_expand_paths("source_folder_path")
     def __init__(self, source_folder_path):
         """
         Initialise the function with a path to the source
