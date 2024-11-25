@@ -8,7 +8,7 @@ from reefbuilder_segmentation.utils.modelling.yolo import (
     export_yolo_data,
     test_on_data_with_labels_yolo,
 )
-from reefbuilder_segmentation.utils.preprocessor.paths import validate_and_expand_paths
+from reefbuilder_segmentation.utils.preprocessor.paths import expand_paths
 
 
 logger = logging.Logger(cfg.logger_name)
@@ -29,7 +29,7 @@ class Model:
         self.valid_metrics = None  # metrics on validation set
         self.test_metrics = None
 
-    @validate_and_expand_paths("model_location", "data_location")
+    @expand_paths("model_location", "data_location")
     def train_yolo(
         self,
         model_location=None,

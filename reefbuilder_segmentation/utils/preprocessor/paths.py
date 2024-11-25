@@ -2,7 +2,7 @@ import os
 from functools import wraps
 
 
-def validate_and_expand_paths(*path_args):
+def expand_paths(*path_args):
     """
     A decorator to validate and expand specified path arguments.
 
