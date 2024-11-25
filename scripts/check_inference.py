@@ -13,7 +13,7 @@ preprocess_config = {
     "split_seed": 0,
 }
 
-prep = Preprocessor(image_folder_path, label_folder_path)
+prep = Preprocessor(image_folder_path)
 ds = prep.create_dataset()
 prep.preprocess_dataset(preprocess_config)
 

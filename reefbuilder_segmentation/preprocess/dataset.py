@@ -8,6 +8,8 @@ import reefbuilder_segmentation.config as cfg
 from reefbuilder_segmentation.utils.preprocessor.dataset import (
     preprocess_dataset_with_config,
     read_write_images_cv2,
+    create_inference_fo_dataset,
+    create_train_fo_dataset,
 )
 from reefbuilder_segmentation.utils.preprocessor.paths import expand_paths
 
@@ -52,19 +54,15 @@ class Preprocessor:
             self.mode = "inference"
         logger.info(f"Preprocessor built for mode: {self.mode}")
 
+    # todo: create and preprocess dataset could be bundled up into one function
     def create_dataset(self):
-        coco_dataset = fo.Dataset.from_dir(
-            dataset_type=fo.types.COCODetectionDataset,
-            data_path=self.image_folder_path,
-            labels_path=self.coco_file_paths[0],
-        )
-        for coco_path in self.coco_file_paths[1:]:
-            coco_dataset.merge_dir(
-                dataset_type=fo.types.COCODetectionDataset,
-                data_path=self.image_folder_path,
-                labels_path=coco_path,
+        if self.mode == "train":
+            dataset = create_train_fo_dataset(
+                self.image_folder_path, self.coco_file_paths
             )
-        self.dataset = coco_dataset
+        else:
+            dataset = create_inference_fo_dataset(self.image_folder_path)
+        self.dataset = dataset
         return self.dataset
 
     def preprocess_dataset(self, config):

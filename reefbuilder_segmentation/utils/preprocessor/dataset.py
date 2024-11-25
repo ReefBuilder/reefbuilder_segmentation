@@ -3,6 +3,9 @@ import operator
 import logging
 import reefbuilder_segmentation.config as cfg
 import cv2
+import glob
+import os
+import fiftyone as fo
 
 # Mapping strings to operator functions
 string_to_operator = {
@@ -81,3 +84,31 @@ def read_write_images_cv2(list_of_image_file_paths):
         # Save the image
         cv2.imwrite(image_path, image)
     return
+
+
+def create_inference_fo_dataset(image_folder_path):
+    # Create samples for your data
+    samples = []
+    for filepath in glob.glob(os.path.join(image_folder_path, "*")):
+        sample = fo.Sample(filepath=filepath)
+        samples.append(sample)
+
+    # Create dataset
+    dataset = fo.Dataset("inference-dataset")
+    dataset.add_samples(samples)
+    return dataset
+
+
+def create_train_fo_dataset(image_folder_path, coco_file_paths):
+    coco_dataset = fo.Dataset.from_dir(
+        dataset_type=fo.types.COCODetectionDataset,
+        data_path=image_folder_path,
+        labels_path=coco_file_paths[0],
+    )
+    for coco_path in coco_file_paths[1:]:
+        coco_dataset.merge_dir(
+            dataset_type=fo.types.COCODetectionDataset,
+            data_path=image_folder_path,
+            labels_path=coco_path,
+        )
+    return coco_dataset
