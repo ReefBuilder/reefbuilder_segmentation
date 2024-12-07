@@ -30,3 +30,6 @@ runs
 
 # yolo files
 yolo_files
+
+# dist
+dist/*
