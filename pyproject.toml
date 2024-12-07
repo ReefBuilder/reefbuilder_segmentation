@@ -4,7 +4,7 @@
 
 [tool.poetry]
 name = "reefbuilder_segmentation"
-version = "0.0.3"
+version = "0.0.4"
 description = "An instance segmentation library focussed on solving marine conservation-related problems"
 authors = ["Ishan Nangia <ishannangia.123@gmail.com>"]
 readme = "README.md"
