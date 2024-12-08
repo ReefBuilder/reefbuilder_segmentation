@@ -14,7 +14,9 @@ def setup_logging():
     if not os.path.exists(log_file_path):
         os.makedirs(os.path.dirname(os.path.expanduser(log_file_path)), exist_ok=True)
     base_name = os.path.splitext(os.path.basename(log_file_path))[0]
-    print(f"Log file can be found here. File name will start with {base_name}")
+    print(
+        f"Log file can be found here: {os.path.abspath(os.path.dirname(log_file_path))}. File name will start with {base_name}"
+    )
     logging.config.dictConfig(log_config)
 
 
