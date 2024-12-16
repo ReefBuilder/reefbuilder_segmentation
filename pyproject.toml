@@ -4,7 +4,7 @@
 
 [tool.poetry]
 name = "reefbuilder_segmentation"
-version = "0.0.5"
+version = "0.1.1"
 description = "An instance segmentation library focussed on solving marine conservation-related problems"
 authors = ["Ishan Nangia <ishannangia.123@gmail.com>"]
 readme = "README.md"
@@ -14,11 +14,12 @@ python = ">=3.10,<3.12"
 ultralytics = "^8.1.47"
 supervision = "0.17"
 dataclasses-json = "^0.6.4"
-numpy = "^2.0.0"
+numpy = "1.26.4"
 opencv-python = "^4.10.0.84"
-fiftyone = "^0.24.1"
+fiftyone = "^1.0.0"
 black = "^24.4.2"
 flake8 = "^7.1.0"
+scipy = "1.13.1"
 
 [build-system]
 requires = ["poetry-core"]
