@@ -21,6 +21,10 @@ black = "^24.4.2"
 flake8 = "^7.1.0"
 scipy = "1.13.1"
 
+[[tool.poetry.source]]
+name = "PyPI"
+priority = "primary"
+
 [build-system]
 requires = ["poetry-core"]
 build-backend = "poetry.core.masonry.api"
