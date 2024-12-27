@@ -33,3 +33,6 @@ yolo_files
 
 # dist
 dist/*
+
+# output of models
+data/output_yolo/
