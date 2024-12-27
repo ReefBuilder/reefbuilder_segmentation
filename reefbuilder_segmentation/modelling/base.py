@@ -22,12 +22,19 @@ class Model:
     def __init__(self, fo_dataset):
         self.dataset = fo_dataset  # fiftyone dataset
         self.model = None  # points to the loaded model itself
-        self.model_type = None  # type of model being used: YOLO, DETECTRON
+        self.model_type = None  # type of model being used: YOLO
         self.model_location = None  # location from where model is loaded
         self.data_folder = None  # folder containing data (when using YOLO)
         self.train_metrics = None
         self.valid_metrics = None  # metrics on validation set
         self.test_metrics = None
+
+        # inference
+        self.inference_model_type = None
+        self.inference_model_location = None
+        self.inference_model = None
+        self.inference_image_location = None
+        self.inference_output_location = None
 
     @expand_paths("model_location", "data_location")
     def train_yolo(
@@ -107,4 +114,74 @@ class Model:
 
         logger.info(f"\n || Model results saved here: {results.save_dir} || \n")  # noqa
         print("\n || Model results saved here:", results.save_dir, "|| \n")
+        return None
+
+    @expand_paths("model_location", "image_location", "output_location")
+    def infer_yolo(
+        self,
+        model_location=None,
+        image_location="../data/yolo_files/",
+        output_location="../data/output_yolo/",
+    ):
+        logger.info("Starting inference on images...")
+        # todo: clean the below code up into smaller functions
+        self.inference_model_type = "YOLO"
+
+        # Ensure the model exists
+        if not model_location:
+            logger.info("No model location given. Shifting to stored model.")
+            if self.model_location:
+                model_location = self.model_location
+            else:
+                logger.error(
+                    "No stored model location. Please give valid model location."
+                )
+                raise FileNotFoundError("Inference model file not found.")
+
+        if not os.path.exists(model_location):
+            logger.error("Given inference model location does not exist...")
+            raise FileNotFoundError("Inference model file not found.")
+
+        # Load YOLO model
+        logger.info("Loading YOLO model for inference...")
+        if not model_location:
+            self.inference_model_location = model_location
+        else:
+            self.inference_model_location = self.model_location
+        self.inference_model = YOLO(self.inference_model_location)
+
+        # Set up input and output directories
+        self.inference_image_location = image_location
+        self.inference_output_location = output_location
+        os.makedirs(self.inference_output_location, exist_ok=True)
+        logger.info(
+            f"Inference output folder created at {self.inference_output_location}"
+        )
+
+        # todo: run the below through ImageChecker
+        # todo: All below like validation things should run through checkers/validators
+        image_files = [
+            f
+            for f in os.listdir(self.inference_image_location)
+            if os.path.splitext(f)[1][1:] in cfg.accepted_image_formats
+        ]
+
+        if not image_files:
+            logger.error("No valid image files found in the input directory.")
+            return
+
+        # todo: make this batched inference instead of sequential
+        for image_name in image_files:
+            image_path = os.path.join(self.inference_image_location, image_name)
+
+            # Perform inference
+            results = self.model(image_path)
+
+            # Save inference results
+            results_path = os.path.join(
+                self.inference_output_location, f"inference_{image_name}"
+            )
+            results[0].save(filename=results_path)  # This will save annotated images
+
+        logger.info("\n || Inference Complete || \n")
         return None

@@ -19,4 +19,7 @@ prep.preprocess_dataset(preprocess_config)
 
 # modelling
 model = Model(prep.dataset)
-model.train_yolo(epochs=10, imgsz=640, batch=4)
+model.train_yolo(epochs=1, imgsz=640, batch=4)
+
+# inference
+model.infer_yolo(image_location=image_folder_path)
